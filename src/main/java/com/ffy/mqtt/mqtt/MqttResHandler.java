@@ -2,7 +2,7 @@ package com.ffy.mqtt.mqtt;
 
 import cn.hutool.json.JSONUtil;
 import com.ffy.mqtt.model.Message;
-import com.ffy.mqtt.rabbitmq.SimpleSender;
+//import com.ffy.mqtt.rabbitmq.SimpleSender;
 import com.ffy.mqtt.util.DefaultFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;

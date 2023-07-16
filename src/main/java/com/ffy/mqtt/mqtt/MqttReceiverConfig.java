@@ -20,6 +20,7 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessagingException;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.ui.context.Theme;
 
 /**
  * MQTT配置，消费者
@@ -126,8 +127,12 @@ public class MqttReceiverConfig {
             @Override
             public void handleMessage(Message<?> message) throws MessagingException {
                 String topic = message.getHeaders().get("mqtt_receivedTopic").toString();
-
-                if(topic.equals(Constant.MQTT_TOPIC_RES)){
+                try {
+                    Thread.sleep(4000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                if(topic.equals(Constant.MQTT_TOPIC_REQ)){
                     String msg = message.getPayload().toString();
                     mqttResHandler.deal(JSONUtil.toBean(msg,com.ffy.mqtt.model.Message.class));
                 }

@@ -1,8 +1,8 @@
 server:
   port: 8081
 mqtt:
-  username: guest                            # 账号
-  password: guest                        # 密码
+  username:                             # 账号
+  password:                         # 密码
   url: tcp://127.0.0.1:1883                    # mqtt连接tcp地址
   clientId: test                            # 客户端Id，每个启动的id要不同
   defaultTopic: test                        # 默认主题
