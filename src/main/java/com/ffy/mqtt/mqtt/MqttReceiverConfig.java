@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.integration.annotation.ServiceActivator;
-import org.springframework.integration.channel.DirectChannel;
+import org.springframework.integration.channel.ExecutorChannel;
 import org.springframework.integration.core.MessageProducer;
 import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory;
 import org.springframework.integration.mqtt.core.MqttPahoClientFactory;
@@ -20,7 +20,7 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 import org.springframework.messaging.MessagingException;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.ui.context.Theme;
+import java.util.concurrent.Executors;
 
 /**
  * MQTT配置，消费者
@@ -94,7 +94,8 @@ public class MqttReceiverConfig {
      */
     @Bean(name = CHANNEL_NAME_IN)
     public MessageChannel mqttInboundChannel() {
-        return new DirectChannel();
+//        return new DirectChannel();
+        return new ExecutorChannel(Executors.newCachedThreadPool());
     }
 
     /**
@@ -109,12 +110,11 @@ public class MqttReceiverConfig {
                         StringUtils.split(defaultTopic, ","));
         adapter.setCompletionTimeout(5000);
         adapter.setConverter(new DefaultPahoMessageConverter());
-        adapter.setQos(1);
+        adapter.setQos(0);
         // 设置订阅通道
         adapter.setOutputChannel(mqttInboundChannel());
         return adapter;
     }
-
     @Autowired
     MqttResHandler mqttResHandler;
     /**
@@ -143,6 +143,5 @@ public class MqttReceiverConfig {
             }
         };
     }
-
 }
 

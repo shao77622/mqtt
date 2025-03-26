@@ -39,8 +39,9 @@ public class DefaultFuture implements Future {
     }
 
     public static Long  generateId(){
-        Snowflake snowflake = IdUtil.createSnowflake(1, 1);
-        long id = snowflake.nextId();
+//        Snowflake snowflake = IdUtil.createSnowflake(1, 1);
+//        long id = snowflake.nextId();
+        long id = IdUtil.getSnowflake(1, 1).nextId();
         return id;
     }
     @Override
@@ -87,7 +88,11 @@ public class DefaultFuture implements Future {
                 lock.unlock();
             }
             if (! isDone()) {
-                throw new RuntimeException("请求超时");
+//                throw new RuntimeException("请求超时");
+                Message timeoutResponse = new Message();
+                timeoutResponse.setMessageId(this.getId());
+                timeoutResponse.setPlayLoad("超时");
+                DefaultFuture.received(timeoutResponse);
             }
         }
         return msg;
