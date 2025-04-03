@@ -17,16 +17,20 @@ public class TestController {
     @Autowired
     SynMqttSender synMqttSender;
 
-    @PostMapping("send")
-    public Message sendMsg(@RequestBody Message message) {
-        log.info("sendMsg:" + message.getMessageId());
-        DefaultFuture future = synMqttSender.sendMessage(message);
+    @PostMapping("sendMsgUpdate")
+    public Message sendMsgUpdate(@RequestBody Message message) {
+        synMqttSender.sendMessageUpdate(message);
+        return message;
+    }
+
+    @PostMapping("sendMsgRrpc")
+    public Message sendMsgRrpc(@RequestBody Message message) {
+        DefaultFuture future = synMqttSender.sendMessageRrpc(message);
         try {
             return future.get();
         } catch (Exception e) {
             log.error("message_id:" + message.getMessageId());
             throw e;
         }
-
     }
 }

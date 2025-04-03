@@ -14,12 +14,22 @@ import org.springframework.stereotype.Component;
 public class SynMqttSender {
     @Autowired
     IMqttSender iMqttSender;
-    public DefaultFuture sendMessage(Message msg)  {
+
+
+    public void sendMessageUpdate(Message msg) {
         Long msgId = DefaultFuture.generateId();
         msg.setMessageId(msgId);
-        DefaultFuture future = new DefaultFuture(msg.getMessageId(),3);
-        iMqttSender.sendToMqtt(Constant.MQTT_TOPIC_REQ,0, JSONUtil.toJsonStr(msg));
+        iMqttSender.sendToMqtt(Constant.MQTT_TOPIC_UPDATE, 0, JSONUtil.toJsonStr(msg));
+//        log.info("*****sendMessage" + msg.getMessageId());
+    }
+
+    public DefaultFuture sendMessageRrpc(Message msg) {
+        Long msgId = DefaultFuture.generateId();
+        msg.setMessageId(msgId);
+        DefaultFuture future = new DefaultFuture(msg.getMessageId(), 3);
+        iMqttSender.sendToMqtt(Constant.MQTT_TOPIC_RRPC_REQ + msgId, 1, JSONUtil.toJsonStr(msg));
 //        log.info("*****sendMessage" + msg.getMessageId());
         return future;
     }
+
 }

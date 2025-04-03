@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 public class Message {
     Long messageId;
-    String playLoad;
+    String payLoad;
 }

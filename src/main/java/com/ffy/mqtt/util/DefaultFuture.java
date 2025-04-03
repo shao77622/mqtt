@@ -91,7 +91,7 @@ public class DefaultFuture implements Future {
 //                throw new RuntimeException("请求超时");
                 Message timeoutResponse = new Message();
                 timeoutResponse.setMessageId(this.getId());
-                timeoutResponse.setPlayLoad("超时");
+                timeoutResponse.setPayLoad("超时");
                 DefaultFuture.received(timeoutResponse);
             }
         }
@@ -137,7 +137,7 @@ public class DefaultFuture implements Future {
                         if (System.currentTimeMillis() - future.getStartTimestamp() > future.getTimeout()*1000) {
                             Message timeoutResponse = new Message();
                             timeoutResponse.setMessageId(future.getId());
-                            timeoutResponse.setPlayLoad("超时");
+                            timeoutResponse.setPayLoad("超时");
                             DefaultFuture.received(timeoutResponse);
                         }
                     }
